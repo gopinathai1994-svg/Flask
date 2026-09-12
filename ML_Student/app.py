@@ -28,7 +28,7 @@ def predict():
         'Section_D': [1 if section == 'D' else 0]
     })
 
-    # Preprocess the data (e.g., encode categorical variables, scale features)
+    # Preprocess the data(e.g., encode categorical variables, scale features)
     # This step depends on how your model was trained
     data_processed = scaler.transform(data)
     
