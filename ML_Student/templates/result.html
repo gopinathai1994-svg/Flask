@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction Result</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #6366f1 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #06b6d4 0%,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b
+                );
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Main Card */
+        .card {
+            background: rgba(255, 255, 255, 0.96);
+
+            border-radius: 24px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.30),
+                0 8px 20px rgba(0, 0, 0, 0.12);
+
+            backdrop-filter: blur(15px);
+
+            animation: slideUp 0.7s ease;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+
+            margin: auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #06b6d4
+                );
+
+            color: white;
+
+            font-size: 32px;
+
+            box-shadow:
+                0 10px 25px rgba(99, 102, 241, 0.35);
+        }
+
+        .header h1 {
+            margin-top: 18px;
+
+            font-size: 28px;
+
+            color: #111827;
+
+            font-weight: 700;
+        }
+
+        .header p {
+            margin-top: 8px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+        /* Prediction Result */
+        .prediction-box {
+            text-align: center;
+
+            padding: 22px;
+
+            margin-bottom: 25px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #ecfeff
+                );
+
+            border: 1px solid #e0e7ff;
+        }
+
+        .prediction-label {
+            font-size: 13px;
+
+            color: #6b7280;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            font-weight: 600;
+        }
+
+        .prediction-value {
+            margin-top: 8px;
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            color: #4f46e5;
+        }
+
+        /* Student Details */
+        .details {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 14px;
+        }
+
+        .detail-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 15px 16px;
+
+            background: #f9fafb;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            transition: all 0.25s ease;
+        }
+
+        .detail-row:hover {
+            transform: translateY(-2px);
+
+            border-color: #c7d2fe;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .detail-label {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #111827;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+        /* Button */
+        .back-btn {
+            display: block;
+
+            width: 100%;
+
+            height: 52px;
+
+            margin-top: 25px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #4f46e5,
+                    #06b6d4
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            text-align: center;
+
+            line-height: 52px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 10px 25px rgba(79, 70, 229, 0.35);
+
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 30px rgba(79, 70, 229, 0.45);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+
+            margin-top: 24px;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+        }
+
+        .footer span {
+            color: #6366f1;
+
+            font-weight: 600;
+        }
+
+        /* Animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 500px) {
+
+            .card {
+                padding: 28px 22px;
+
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .icon {
+                width: 60px;
+
+                height: 60px;
+
+                font-size: 27px;
+            }
+
+            .prediction-value {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <!-- Header -->
+            <div class="header">
+
+                <div class="icon">
+                    🎓
+                </div>
+
+                <h1>Prediction Result</h1>
+
+                <p>
+                    AI-powered student performance analysis
+                </p>
+
+            </div>
+
+
+            <!-- Prediction -->
+            <div class="prediction-box">
+
+                <div class="prediction-label">
+                    Predicted Performance
+                </div>
+
+                <div class="prediction-value">
+                    {{ prediction }}
+                </div>
+
+            </div>
+
+
+            <!-- Student Details -->
+            <div class="details">
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        📊 Attendance
+                    </span>
+
+                    <span class="detail-value">
+                        {{ attendance }}%
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        📝 Monthly Mark
+                    </span>
+
+                    <span class="detail-value">
+                        {{ monthly_mark }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        🏫 Section
+                    </span>
+
+                    <span class="detail-value">
+                        Section {{ section }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Back Button -->
+            <a href="/" class="back-btn">
+                🔄 Predict Another Student
+            </a>
+
+
+            <!-- Footer -->
+            <div class="footer">
+                Powered by <span>AI & Machine Learning</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
