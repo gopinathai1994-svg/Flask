@@ -7,12 +7,18 @@
     <title>Prediction Result</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: "Segoe UI", Arial, sans-serif;
         }
+
+
+        /* =========================
+           BODY
+        ========================= */
 
         body {
             min-height: 100vh;
@@ -39,49 +45,116 @@
                     #0f172a,
                     #1e293b
                 );
+
+            overflow-x: hidden;
         }
 
-        /* Main Container */
+
+        /* =========================
+           FLOATING BACKGROUND
+        ========================= */
+
+        body::before {
+            content: "";
+
+            position: fixed;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background: rgba(99, 102, 241, 0.25);
+
+            filter: blur(60px);
+
+            top: -80px;
+            left: -80px;
+
+            animation: floating 6s ease-in-out infinite;
+        }
+
+
+        body::after {
+            content: "";
+
+            position: fixed;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background: rgba(6, 182, 212, 0.20);
+
+            filter: blur(60px);
+
+            bottom: -80px;
+            right: -80px;
+
+            animation: floating 7s ease-in-out infinite reverse;
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 560px;
+
+            position: relative;
+
+            z-index: 2;
         }
 
-        /* Main Card */
-        .card {
-            background: rgba(255, 255, 255, 0.96);
 
-            border-radius: 24px;
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+
+            background: rgba(255, 255, 255, 0.97);
+
+            border-radius: 28px;
 
             padding: 38px;
 
             box-shadow:
-                0 25px 60px rgba(0, 0, 0, 0.30),
-                0 8px 20px rgba(0, 0, 0, 0.12);
+                0 30px 80px rgba(0, 0, 0, 0.35);
 
-            backdrop-filter: blur(15px);
+            animation: cardEntry 0.8s ease;
 
-            animation: slideUp 0.7s ease;
+            overflow: hidden;
         }
 
-        /* Header */
+
+        /* =========================
+           HEADER
+        ========================= */
+
         .header {
             text-align: center;
 
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
+
         .icon {
-            width: 70px;
-            height: 70px;
+
+            width: 76px;
+            height: 76px;
 
             margin: auto;
 
             display: flex;
+
             justify-content: center;
             align-items: center;
 
-            border-radius: 20px;
+            border-radius: 22px;
 
             background:
                 linear-gradient(
@@ -90,25 +163,30 @@
                     #06b6d4
                 );
 
-            color: white;
-
-            font-size: 32px;
+            font-size: 38px;
 
             box-shadow:
-                0 10px 25px rgba(99, 102, 241, 0.35);
+                0 15px 35px rgba(79, 70, 229, 0.35);
+
+            animation:
+                iconFloat 3s ease-in-out infinite;
         }
 
+
         .header h1 {
+
             margin-top: 18px;
 
-            font-size: 28px;
+            font-size: 30px;
 
             color: #111827;
 
-            font-weight: 700;
+            font-weight: 800;
         }
 
+
         .header p {
+
             margin-top: 8px;
 
             color: #6b7280;
@@ -116,50 +194,237 @@
             font-size: 14px;
         }
 
-        /* Prediction Result */
+
+        /* ==================================================
+           PREDICTION AREA
+        ================================================== */
+
         .prediction-box {
+
+            position: relative;
+
             text-align: center;
 
-            padding: 22px;
+            padding: 25px 20px;
 
             margin-bottom: 25px;
 
-            border-radius: 18px;
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            transition: all 0.5s ease;
+        }
+
+
+        /* Moving shine */
+
+        .prediction-box::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 70%;
+            height: 100%;
 
             background:
                 linear-gradient(
-                    135deg,
-                    #eef2ff,
-                    #ecfeff
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.5),
+                    transparent
                 );
 
-            border: 1px solid #e0e7ff;
+            transform: skewX(-20deg);
+
+            animation: shine 4s infinite;
         }
 
+
+        /* =========================
+           LABEL
+        ========================= */
+
         .prediction-label {
+
+            position: relative;
+
             font-size: 13px;
 
             color: #6b7280;
 
             text-transform: uppercase;
 
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
 
-            font-weight: 600;
+            font-weight: 700;
         }
+
+
+        /* =========================
+           PREDICTION VALUE
+        ========================= */
 
         .prediction-value {
+
+            position: relative;
+
             margin-top: 8px;
 
-            font-size: 30px;
+            font-size: 38px;
 
-            font-weight: 800;
+            font-weight: 900;
 
-            color: #4f46e5;
+            animation: resultPop 0.8s ease;
         }
 
-        /* Student Details */
+
+        /* ==================================================
+           RISK
+        ================================================== */
+
+        .risk {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff1f2,
+                    #ffe4e6
+                );
+
+            border: 1px solid #fecdd3;
+
+            box-shadow:
+                0 10px 35px rgba(244, 63, 94, 0.15);
+        }
+
+
+        .risk .prediction-value {
+
+            color: #e11d48;
+
+            animation:
+                resultPop 0.8s ease,
+                sadShake 3s ease-in-out infinite 1s;
+        }
+
+
+        /* Sad emoji */
+
+        .risk .student-emotion::after {
+
+            content: "😢";
+
+            animation:
+                sadFace 2s ease-in-out infinite;
+        }
+
+
+        /* ==================================================
+           MEDIUM
+        ================================================== */
+
+        .medium {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffbeb,
+                    #fef3c7
+                );
+
+            border: 1px solid #fde68a;
+
+            box-shadow:
+                0 10px 35px rgba(245, 158, 11, 0.15);
+        }
+
+
+        .medium .prediction-value {
+
+            color: #d97706;
+
+            animation:
+                resultPop 0.8s ease;
+        }
+
+
+        /* Normal emoji */
+
+        .medium .student-emotion::after {
+
+            content: "😐";
+
+            animation:
+                normalFace 3s ease-in-out infinite;
+        }
+
+
+        /* ==================================================
+           GOOD
+        ================================================== */
+
+        .good {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ecfdf5,
+                    #d1fae5
+                );
+
+            border: 1px solid #a7f3d0;
+
+            box-shadow:
+                0 10px 35px rgba(16, 185, 129, 0.20);
+        }
+
+
+        .good .prediction-value {
+
+            color: #059669;
+
+            animation:
+                resultPop 0.8s ease,
+                happyBounce 2s ease-in-out infinite 1s;
+        }
+
+
+        /* Happy emoji */
+
+        .good .student-emotion::after {
+
+            content: "😄";
+
+            animation:
+                happyFace 1.5s ease-in-out infinite;
+        }
+
+
+        /* Emotion */
+
+        .student-emotion {
+
+            position: relative;
+
+            margin-top: 10px;
+
+            height: 45px;
+
+            font-size: 38px;
+        }
+
+
+        /* ==================================================
+           DETAILS
+        ================================================== */
+
         .details {
+
             display: flex;
 
             flex-direction: column;
@@ -167,60 +432,92 @@
             gap: 14px;
         }
 
+
         .detail-row {
+
             display: flex;
 
             justify-content: space-between;
 
             align-items: center;
 
-            padding: 15px 16px;
+            padding: 16px;
 
             background: #f9fafb;
 
             border: 1px solid #e5e7eb;
 
-            border-radius: 12px;
+            border-radius: 14px;
 
-            transition: all 0.25s ease;
+            transition: all 0.3s ease;
+
+            animation: rowEntry 0.6s ease backwards;
         }
 
+
+        .detail-row:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+
+        .detail-row:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+
+        .detail-row:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+
         .detail-row:hover {
-            transform: translateY(-2px);
+
+            transform: translateX(5px);
 
             border-color: #c7d2fe;
 
             box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.06);
+                0 8px 20px rgba(0, 0, 0, 0.07);
         }
 
+
         .detail-label {
+
             color: #6b7280;
 
             font-size: 14px;
 
-            font-weight: 500;
+            font-weight: 600;
         }
 
+
         .detail-value {
+
             color: #111827;
 
             font-size: 15px;
 
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        /* Button */
+
+        /* =========================
+           BUTTON
+        ========================= */
+
         .back-btn {
+
+            position: relative;
+
             display: block;
 
             width: 100%;
 
-            height: 52px;
+            height: 54px;
 
             margin-top: 25px;
 
-            border-radius: 13px;
+            border-radius: 14px;
 
             background:
                 linear-gradient(
@@ -236,27 +533,60 @@
 
             text-align: center;
 
-            line-height: 52px;
+            line-height: 54px;
 
             font-size: 15px;
 
-            font-weight: 700;
+            font-weight: 800;
 
             box-shadow:
-                0 10px 25px rgba(79, 70, 229, 0.35);
+                0 12px 30px rgba(79, 70, 229, 0.35);
 
             transition: all 0.3s ease;
+
+            overflow: hidden;
         }
+
+
+        .back-btn::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.3),
+                    transparent
+                );
+
+            animation: buttonShine 3s infinite;
+        }
+
 
         .back-btn:hover {
-            transform: translateY(-3px);
+
+            transform: translateY(-4px) scale(1.01);
 
             box-shadow:
-                0 15px 30px rgba(79, 70, 229, 0.45);
+                0 18px 40px rgba(79, 70, 229, 0.45);
         }
 
-        /* Footer */
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         .footer {
+
             text-align: center;
 
             margin-top: 24px;
@@ -266,54 +596,225 @@
             font-size: 12px;
         }
 
+
         .footer span {
+
             color: #6366f1;
 
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* Animation */
-        @keyframes slideUp {
+
+        /* ==================================================
+           ANIMATIONS
+        ================================================== */
+
+        @keyframes cardEntry {
+
             from {
                 opacity: 0;
-
-                transform: translateY(30px);
+                transform: translateY(50px) scale(0.95);
             }
 
             to {
                 opacity: 1;
-
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
-        /* Mobile */
+
+        @keyframes iconFloat {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+
+        @keyframes floating {
+
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, 25px);
+            }
+        }
+
+
+        @keyframes resultPop {
+
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            70% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+
+        @keyframes rowEntry {
+
+            from {
+                opacity: 0;
+                transform: translateX(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes shine {
+
+            0% {
+                left: -120%;
+            }
+
+            40%, 100% {
+                left: 150%;
+            }
+        }
+
+
+        @keyframes buttonShine {
+
+            0% {
+                left: -100%;
+            }
+
+            50%, 100% {
+                left: 100%;
+            }
+        }
+
+
+        /* =========================
+           RISK ANIMATION
+        ========================= */
+
+        @keyframes sadFace {
+
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(3px) rotate(-5deg);
+            }
+
+            75% {
+                transform: translateY(3px) rotate(5deg);
+            }
+        }
+
+
+        @keyframes sadShake {
+
+            0%, 85%, 100% {
+                transform: translateX(0);
+            }
+
+            90% {
+                transform: translateX(-3px);
+            }
+
+            95% {
+                transform: translateX(3px);
+            }
+        }
+
+
+        /* =========================
+           MEDIUM ANIMATION
+        ========================= */
+
+        @keyframes normalFace {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        /* =========================
+           GOOD ANIMATION
+        ========================= */
+
+        @keyframes happyFace {
+
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+        }
+
+
+        @keyframes happyBounce {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
         @media (max-width: 500px) {
 
             .card {
-                padding: 28px 22px;
-
-                border-radius: 20px;
+                padding: 26px 20px;
+                border-radius: 22px;
             }
+
 
             .header h1 {
-                font-size: 24px;
+                font-size: 25px;
             }
+
 
             .icon {
-                width: 60px;
-
-                height: 60px;
-
-                font-size: 27px;
+                width: 62px;
+                height: 62px;
+                font-size: 30px;
             }
+
 
             .prediction-value {
-                font-size: 26px;
+                font-size: 32px;
             }
         }
+
     </style>
 </head>
+
 
 <body>
 
@@ -321,14 +822,20 @@
 
         <div class="card">
 
-            <!-- Header -->
+
+            <!-- =========================
+                 HEADER
+            ========================== -->
+
             <div class="header">
 
                 <div class="icon">
                     🎓
                 </div>
 
-                <h1>Prediction Result</h1>
+                <h1>
+                    Prediction Result
+                </h1>
 
                 <p>
                     AI-powered student performance analysis
@@ -337,8 +844,70 @@
             </div>
 
 
-            <!-- Prediction -->
-            <div class="prediction-box">
+            <!-- =================================================
+                 PREDICTION RESULT
+
+                 IMPORTANT:
+                 Python prediction should return:
+                 Risk / Medium / Good
+            ================================================== -->
+
+            {% if prediction|lower == "risk" %}
+
+            <div class="prediction-box risk">
+
+                <div class="prediction-label">
+                    Predicted Performance
+                </div>
+
+                <div class="prediction-value">
+                    Risk
+                </div>
+
+                <div class="student-emotion"></div>
+
+            </div>
+
+
+            {% elif prediction|lower == "medium" %}
+
+            <div class="prediction-box medium">
+
+                <div class="prediction-label">
+                    Predicted Performance
+                </div>
+
+                <div class="prediction-value">
+                    Medium
+                </div>
+
+                <div class="student-emotion"></div>
+
+            </div>
+
+
+            {% elif prediction|lower == "good" %}
+
+            <div class="prediction-box good">
+
+                <div class="prediction-label">
+                    Predicted Performance
+                </div>
+
+                <div class="prediction-value">
+                    Good
+                </div>
+
+                <div class="student-emotion"></div>
+
+            </div>
+
+
+            {% else %}
+
+            <!-- Unknown prediction -->
+
+            <div class="prediction-box medium">
 
                 <div class="prediction-label">
                     Predicted Performance
@@ -348,10 +917,17 @@
                     {{ prediction }}
                 </div>
 
+                <div class="student-emotion"></div>
+
             </div>
 
+            {% endif %}
 
-            <!-- Student Details -->
+
+            <!-- =========================
+                 STUDENT DETAILS
+            ========================== -->
+
             <div class="details">
 
                 <div class="detail-row">
@@ -395,16 +971,28 @@
             </div>
 
 
-            <!-- Back Button -->
+            <!-- =========================
+                 BUTTON
+            ========================== -->
+
             <a href="/" class="back-btn">
-                🔄 Predict Another Student
+                🔄 &nbsp; Predict Another Student
             </a>
 
 
-            <!-- Footer -->
+            <!-- =========================
+                 FOOTER
+            ========================== -->
+
             <div class="footer">
-                Powered by <span>AI & Machine Learning</span>
+
+                Powered by
+                <span>
+                    AI & Machine Learning
+                </span>
+
             </div>
+
 
         </div>
 
